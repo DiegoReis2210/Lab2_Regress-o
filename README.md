@@ -9,7 +9,7 @@ Supervisora: Prof.a Dra. Reiko Aoki (reiko@icmc.usp.br)
 - Hector Bruno Bueno Figueira 14577372
 - Karen Neves Perciliano 12559357
 - Luiz Henrique Guerrieri 14682515
--
+- Ana Rosa ALmeida do Nascimento 12610559
 
 ## Descrição do Dataset
 O dataset BGSgirls.csv contém dados do Berkeley Guidance Study de meninas nascidas em 1928-29 em
