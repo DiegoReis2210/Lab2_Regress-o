@@ -4,6 +4,8 @@
 # O argumento fileEncoding="latin1" ou similar pode ser necessário dependendo do ambiente
 # e do arquivo, mas tentaremos sem ele primeiro.
 
+cat("\n=== Exercício: 1-a ===\n")
+
 df_bgs <- read.csv2(
   file = "BGSgirls.csv",
   header = TRUE,
@@ -13,7 +15,7 @@ df_bgs <- read.csv2(
 )
 
 # Exploração da Estrutura dos Dados com str()
-print("--- Estrutura do DataFrame (str()) ---")
+print("\n --- Estrutura do DataFrame (str()) ---\n ")
 str(df_bgs)
 
 # Exploração das Primeiras Linhas com head()
@@ -21,6 +23,9 @@ print("\n--- Primeiras linhas do DataFrame (head()) ---")
 head(df_bgs)
 
 # 1.b)
+
+cat("\n=== Exercício: 1-b ===\n")
+
 # Certificando-se de que o DataFrame foi carregado corretamente
 df_bgs <- read.csv2(
   file = "BGSgirls.csv",
@@ -49,6 +54,9 @@ print("--- Medidas Descritivas para HT18 e WT9 ---")
 print(resultados)
 
 #1.c)
+
+cat("\n=== Exercício: 1-c ===\n")
+
 # GRÁFICO DE DISPERSÃO (HT18 vs. WT9)
 
 # Define o título e os rótulos
@@ -112,6 +120,9 @@ hist(
 # Adicionar a coluna de 1s para o intercepto e selecionar as variáveis preditoras
 # A fórmula do modelo é: HT18 ~ 1 + HT2 + WT2 + HT9 + WT9 + ST9
 # O '1' garante a coluna do intercepto.
+
+cat("\n=== Exercício: 2-a ===\n")
+
 X <- model.matrix( ~ HT2 + WT2 + HT9 + WT9 + ST9, data = df_bgs)
 
 # Exibir a estrutura e as primeiras 10 linhas
@@ -122,6 +133,9 @@ print("\n--- Primeiras 10 linhas da Matriz de Design X ---")
 head(X, n = 10)
 
 # 2.b)
+
+cat("\n=== Exercício: 2-b ===\n")
+
 # Vetor da Variável Resposta Y (HT18)
 Y <- as.matrix(df_bgs$HT18)
 
@@ -149,6 +163,9 @@ print("--- Coeficientes do Modelo (Beta Chapéu) Calculados por Matrizes ---")
 print(beta_chapeu)
 
 # 2.c)
+
+cat("\n=== Exercício: 2-c ===\n")
+
 # Cálculo dos Coeficientes usando a função lm()
 # A função lm() estima o mesmo modelo
 modelo_lm <- lm(HT18 ~ HT2 + WT2 + HT9 + WT9 + ST9, data = df_bgs)
@@ -164,6 +181,8 @@ print(beta_chapeu_lm)
 
 # 3.a) Valores Preditos e Resíduos
 
+cat("\n=== Exercício: 3-a ===\n")
+
 # Y_pred Valores preditos pelo modelo
 
 Y_pred <- X %*% beta_chapeu
@@ -178,6 +197,9 @@ print("\n--- Primeiros 10 Resíduos (e) ---")
 head(residuos, n = 10)
 
 #3.b) 
+
+cat("\n=== Exercício: 3-b ===\n")
+
 #A média de Y 
 Y_media <- mean(Y)
 
@@ -205,6 +227,8 @@ summary(modelo_lm)
 
 # 3.c) Verificação da Decomposição da Variância
 
+cat("\n=== Exercício: 3-c ===\n")
+
 # Soma da Regressão e dos Resíduos
 soma_componentes <- SQ_Regressao + SQ_Residuos
 
@@ -218,12 +242,16 @@ print(paste("A identidade SQ_Total = SQ_Regressao + SQ_Residuos é verdadeira?",
 
 # 4.a Cálculo do R-quadrado 
 
+cat("\n=== Exercício: 4-a ===\n")
+
 R_quadrado <- SQ_Regressao / SQ_Total
 
 print(paste("R² (Manual):", R_quadrado))
 
 
 # 4.b)R-quadrado Ajustado (R²_adj)
+
+cat("\n=== Exercício: 4-b ===\n")
 
 # n (número de observações) e p (número de parâmetros)
 n <- nrow(X) 
@@ -238,6 +266,8 @@ print(paste("R² Ajustado (Manual):", R_quadrado_ajustado))
 
 
 # 5.a) QM_Res e Matriz de Covariâncias
+
+cat("\n=== Exercício: 5-a ===\n")
 
 # 1. Calcular o Quadrado Médio dos Resíduos (Estimativa de sigma^2)
 # Usamos SQ_Residuos, n, e p que já calculamos nos exercícios 3 e 4.
@@ -260,6 +290,8 @@ print("--- Matriz de Variâncias-Covariâncias dos Coeficientes ---")
 print(var_cov_matrix)
 
 # 5.b) Teste t para cada coeficiente
+
+cat("\n=== Exercício: 5-b ===\n")
 
 # 1. Extrair os Erros Padrão (Standard Errors - SE)
 # O SE de cada beta é a raiz quadrada da diagonal principal da matriz de covariâncias
@@ -284,6 +316,8 @@ t_critico <- qt(1 - (alfa / 2), df = graus_liberdade_res)
 print(paste("Valor t-crítico para alfa=0.05:", t_critico))
 
 # 5.c) Intervalos de Confiança de 95% para os coeficientes
+
+cat("\n=== Exercício: 5-c ===\n")
 
 # 1. Calcular a Margem de Erro
 # A fórmula é: t_critico * SE(beta_j)
@@ -313,6 +347,8 @@ print(summary(modelo_lm)$coefficients)
 
 # 5.d) Interpretação: Quais variáveis são significativas?
 
+cat("\n=== Exercício: 5-d ===\n")
+
 # Uma variável é significativa se o valor 0 (zero) NÃO estiver
 # dentro do seu intervalo de confiança (IC_Inferior_95 a IC_Superior_95).
 # Ou, de forma equivalente, se |t_Valor_Calc| > t_critico.
@@ -334,6 +370,8 @@ for (i in 1:nrow(resultados_coeficientes)) {
 }
 
 # 6.a) Cálculos Manuais para uma nova observação
+
+cat("\n=== Exercício: 6-a ===\n")
 
 # 1. Criar o vetor da nova observação (x_0)
 # Este vetor PRECISA ter a mesma estrutura da matriz X,
@@ -386,6 +424,8 @@ ic_pred_sup <- y_pred_nova + margem_erro_pred
 print(paste("IP de 95% para o Indivíduo: [", round(ic_pred_inf, 4), ";", round(ic_pred_sup, 4), "]"))
 
 # 6.b) Comparação com a função predict()
+
+cat("\n=== Exercício: 6-b ===\n")
 
 # 1. Criar um novo data.frame com os dados da menina
 # Os nomes das colunas DEVEM ser idênticos aos do data.frame original
@@ -455,3 +495,113 @@ print(pred_pred_r)
 #
 # Interpretação: "Temos 95% de confiança de que a altura de uma menina 
 # individual com essas características estará entre 162.77 cm e 176.95 cm."
+
+# 7. ANOVA
+
+# 7.a - Monte a tabela ANOVA completa com GL, SQ, QM e teste F manualmente (sem funções prontas do R).
+
+cat("\n=== Exercício: 7-a ===\n")
+
+k <- p - 1     # número de covariáveis (exclui o intercepto)
+
+# Graus de liberdade
+GL_regressao <- k
+GL_residuos <- n - p
+GL_total <- n - 1
+
+# Quadrados Médios
+QM_regressao <- SQ_Regressao / GL_regressao
+QM_residuos <- SQ_Residuos / GL_residuos
+
+# Teste F
+F_calc <- QM_regressao / QM_residuos
+F_critico <- qf(1 - alfa, GL_regressao, GL_residuos)
+p_valor_F <- 1 - pf(F_calc, GL_regressao, GL_residuos)
+
+cat("\n TABELA ANOVA \n")
+cat("Fonte de Variação | GL | SQ | QM | F\n")
+cat("------------------|----|----|----|----\n")
+cat("Regressão         |", GL_regressao, "|", round(SQ_Regressao, 2),
+    "|", round(QM_regressao, 2), "|", round(F_calc, 2), "\n")
+cat("Resíduos          |", GL_residuos, "|", round(SQ_Residuos, 2),
+    "|", round(qm_res, 2), "| -\n")
+cat("Total             |", GL_total, "|", round(SQ_total, 2), "| - | -\n")
+
+# 7.b -Teste a hipótese H0 : todos os βj = 0 (exceto β0 ) vs H1 : pelo menos um βj ̸= 0.
+
+cat("\n=== Exercício: 7-b ===\n")
+
+cat("\n TESTE F PARA SIGNIFICÂNCIA GLOBAL \n")
+cat("H0: Todos os betas (exceto intercepto) = 0\n")
+cat("H1: Pelo menos um beta_j ≠ 0\n")
+cat("F calculado:", round(F_calc, 3), "\n")
+cat("F crítico (α=0.05):", round(F_critico, 3), "\n")
+cat("p-valor:", format(p_valor_F, scientific = TRUE, digits = 3), "\n")
+
+if (F_calc > F_critico) {
+  cat("Decisão: Rejeita H0 → A regressão é significativa.\n")
+} else {
+  cat("Decisão: Não rejeita H0 → A regressão não é significativa.\n")
+}
+
+# 8 - Questões Conceituais
+
+# 8.a - Quais as suposições do modelo de regressão linear múltipla?
+
+# 1. Linearidade: relação linear entre Y e os preditores (nos parâmetros beta)
+# 2. Exogeneidade: E(erro | X) = 0 → erros não correlacionados com as variáveis explicativas
+# 3. Homoscedasticidade: var(erro) constante para todos os valores de X
+# 4. Independência: erros independentes entre as observações
+# 5. Normalidade: erros seguem distribuição normal (necessária para testes t e F)
+# 6. Sem multicolinearidade perfeita: nenhuma variável explicativa é combinação exata de outra
+# 7. Especificação correta: o modelo inclui as variáveis relevantes e não omite variáveis importantes
+
+
+
+# 8.b - Quais as limitações do modelo de regressão linear múltipla? O modelo pareceu limitado para esse conjunto de dados de altura?
+
+cat("\n=== Exercício: 8-b ===\n")
+
+# 1. Supõe relação linear entre as variáveis — não capta relações não lineares complexas
+# 2. Sensível a outliers, que podem distorcer as estimativas dos coeficientes
+# 3. Requer ausência de multicolinearidade — correlação alta entre X’s afeta a estabilidade dos betas
+# 4. Pressupõe homoscedasticidade — variância não constante gera inferências incorretas
+# 5. Depende da independência dos erros — violação (ex: dados em série temporal) afeta validade dos testes
+# 6. Assume normalidade dos erros para testes t e F — caso contrário, resultados podem ser imprecisos
+# 7. Pode gerar viés se o modelo estiver mal especificado (variáveis omitidas ou irrelevantes incluídas)
+# 8. Não lida bem com dados categóricos mal codificados ou com alta dimensionalidade
+# 9. Não captura interações ou efeitos não lineares sem que sejam incluídos explicitamente
+
+summary(modelo_lm)
+R_quadrado
+R_quadrado_ajustado
+resultados_coeficientes
+
+# O modelo apresentou R² = 0.73 e R² ajustado = 0.71, explicando bem a variação da altura aos 18 anos.
+# HT9 foi altamente significativa (p < 0.001), sendo o principal preditor positivo.
+# WT9 e ST9 também foram significativas, mas com efeito negativo.
+# HT2 e WT2 não foram significativas.
+# O erro residual (3.26) e o teste F (p < 0.001) indicam bom ajuste geral.
+# Conclusão: o modelo não parece limitado — explica bem a altura final.
+
+
+# 8.C - Compare os resultados da regressão múltipla com uma regressão simples usando apenas WT9. Qual modelo você prefere e por quê?
+
+cat("\n=== Exercício: 8-c ===\n")
+
+# Modelo simples usando apenas WT9
+modelo_simples <- lm(HT18 ~ WT9, data = df_bgs)
+summary(modelo_simples)
+
+# Comparação rápida usando R²
+r2_multipla <- summary(modelo_lm)$r.squared
+r2_simples <- summary(modelo_simples)$r.squared
+
+cat("R² múltipla:", r2_multipla, "\n")
+cat("R² simples :", r2_simples, "\n")
+
+# Comparando os modelos:
+# - O modelo múltiplo tem R² = 0.73, R² ajustado = 0.71.
+# - O modelo simples com WT9 tem R² menor (por exemplo, ~0.18).
+# - WT9 sozinho explica pouco da variação, enquanto o modelo múltiplo melhora muito o ajuste.
+# Conclusão: é preferivel o modelo múltiplo, pois explica melhor a altura final e inclui variáveis significativas.
