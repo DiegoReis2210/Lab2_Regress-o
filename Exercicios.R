@@ -162,6 +162,78 @@ print(beta_chapeu)
 print("\nCálculo R (função lm()):")
 print(beta_chapeu_lm)
 
-# Sumário completo do modelo lm() para referência de interpretação
+# 3.a) Valores Preditos e Resíduos
+
+# Y_pred Valores preditos pelo modelo
+
+Y_pred <- X %*% beta_chapeu
+
+residuos <- Y - Y_pred
+
+
+print("--- Os primeiros 10 Valores Preditos (Y_pred) ---")
+head(Y_pred, n = 10)
+
+print("\n--- Primeiros 10 Resíduos (e) ---")
+head(residuos, n = 10)
+
+#3.b) 
+#A média de Y 
+Y_media <- mean(Y)
+
+#1.Soma dos Quadrados Total 
+
+SQ_Total <- sum((Y - Y_media)^2)
+
+#2 (SQ_Residuos)
+#(Y - Y_pred)^2 = (residuos)^2
+
+SQ_Residuos <- sum(residuos^2)
+
+# SQ_Regressao:
+
+SQ_Regressao <- sum((Y_pred - Y_media)^2)
+
+# Resultados:
+print(paste("SQ_Total:", SQ_Total))
+print(paste("SQ_Regressao:", SQ_Regressao))
+print(paste("SQ_Residuos:", SQ_Residuos))
+
+# Sumário 
 print("\n--- Sumário Completo do Modelo lm() ---")
 summary(modelo_lm)
+
+# 3.c) Verificação da Decomposição da Variância
+
+# Soma da Regressão e dos Resíduos
+soma_componentes <- SQ_Regressao + SQ_Residuos
+
+print(paste("SQ_Total (calculado):", SQ_Total))
+print(paste("SQ_Regressao + SQ_Residuos (soma):", soma_componentes))
+
+# Usamos all.equal() para comparar números de ponto flutuante (evita erros de arredondamento)
+verificacao <- all.equal(SQ_Total, soma_componentes)
+
+print(paste("A identidade SQ_Total = SQ_Regressao + SQ_Residuos é verdadeira?", verificacao))
+
+# 4.a Cálculo do R-quadrado 
+
+R_quadrado <- SQ_Regressao / SQ_Total
+
+print(paste("R² (Manual):", R_quadrado))
+
+
+# 4.b)R-quadrado Ajustado (R²_adj)
+
+# n (número de observações) e p (número de parâmetros)
+n <- nrow(X) 
+p <- ncol(X) 
+
+# Aplicando a fórmula
+R_quadrado_ajustado <- 1 - (((1 - R_quadrado) * (n - 1)) / (n - p))
+
+print(paste("Número de observações (n):", n))
+print(paste("Número de parâmetros (p):", p))
+print(paste("R² Ajustado (Manual):", R_quadrado_ajustado))
+
+
